@@ -1,0 +1,25 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+}
+
+.text-black{
+    color: black;
+    font-family: fantasy;
+}
+
+.footer-bar{
+    text-align: right;
+    background-color: #222;
+    height: 23px;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+}
+
+.list-group-item{
+    background-color: lightgray;
+    border: none;
+}

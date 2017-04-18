@@ -1,0 +1,101 @@
+{% extends 'layout.twig' %}
+{% block content %}
+    {{ include('alert.twig') }}
+    <form class="form-horizontal container" style="width: 50%; background-color: white; border-style: solid; margin-bottom: 50px" action="{{ path_for('register/add') }}" method="POST">
+        <div style="margin-left: 15px">
+        <fieldset>
+            <BR/>
+            <div id="legend">
+                <legend class="">Register</legend>
+            </div>
+
+            <div class="control-group {% if flash.errors.firstname %} has-error {% endif %}">
+                <!-- Firstname -->
+                <label class="control-label"  for="firstname">firstname</label>
+                <div class="controls">
+                    <input type="text" id="firstname" name="firstname" placeholder="" class="input-xlarge" value="{{ old.firstname }}">
+                    {% if flash.errors.firstname %}
+                        <span class="help-block">{{ flash.errors.firstname }}</span>
+                    {% else %}
+                        <p class="help-block">Username can contain any letters or numbers, without spaces</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="control-group {% if flash.errors.lastname %} has-error {% endif %}">
+                <!-- Lastname -->
+                <label class="control-label"  for="lastname">lastname</label>
+                <div class="controls">
+                    <input type="text" id="lastname" name="lastname" placeholder="" class="input-xlarge" value="{{ old.lastname }}">
+                    {% if flash.errors.lastname %}
+                        <span class="help-block">{{ flash.errors.lastname }}</span>
+                    {% else %}
+                        <p class="help-block">Username can contain any letters or numbers, without spaces</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="control-group {% if flash.errors.username %} has-error {% endif %}">
+                <!-- Username -->
+                <label class="control-label"  for="username">Username</label>
+                <div class="controls">
+                    <input type="text" id="username" name="username" placeholder="" class="input-xlarge" value="{{ old.username }}">
+                    {% if flash.errors.username %}
+                        <span class="help-block">{{ flash.errors.username }}</span>
+                    {% else %}
+                        <p class="help-block">Username can contain any letters or numbers, without spaces</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="control-group {% if flash.errors.email %} has-error {% endif %}">
+                <!-- E-mail -->
+                <label class="control-label" for="email">E-mail</label>
+                <div class="controls">
+                    <input type="email" id="email" name="email" placeholder="" class="input-xlarge">
+
+                    {% if flash.errors.email %}
+                        <span class="help-block">{{ flash.errors.email }}</span>
+                    {% else %}
+                        <p class="help-block">Please provide your E-mail</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="control-group {% if flash.errors.password %} has-error {% endif %}">
+                <!-- Password-->
+                <label class="control-label" for="password">Password</label>
+                <div class="controls">
+                    <input type="password" id="password" name="password" placeholder="" class="input-xlarge">
+                    {% if flash.errors.password %}
+                        <span class="help-block">{{ flash.errors.password }}</span>
+                    {% else %}
+                        <p class="help-block">Password should be at least 4 characters</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="control-group {% if flash.errors.password_confirm %} has-error {% endif %}">
+                <!-- Password Confirm -->
+                <label class="control-label"  for="password_confirm">Password (Confirm)</label>
+                <div class="controls">
+                    <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge">
+                    {% if flash.errors.password_confirm %}
+                        <span class="help-block">{{ flash.errors.password_confirm }}</span>
+                    {% else %}
+                        <p class="help-block">Please confirm password</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="control-group">
+                <!-- Button -->
+                <div class="controls">
+                    <button class="btn btn-success">Register</button>
+                </div>
+            </div>
+            <BR/>
+        </fieldset>
+        </div>
+    </form>
+{% endblock %}

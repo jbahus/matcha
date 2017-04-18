@@ -1,0 +1,9 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <form action="{{ path_for('add_picture') }}" method="POST" style="margin-left: inherit" enctype="multipart/form-data">
+        <label for="picture">Ajouter une photo :</label>
+        <input type="file" accept="image/*" id="picture" name="picture" /></BR>
+        <button class="btn btn-success">Send</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'layout.twig' %}
+{% block content %}
+    <script src="https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDoVgU6K7TPa-iW9JNvaVn2m5RMWHap6fU"></script>
+    <script type="text/javascript" src="js/geolocalisation.js"></script>
+    <div style="text-align: center">
+        <img src="img/logo.png" style="width: 16%">
+    </div>
+    <div class="container" style="width: 50%">
+
+        <form class="form-signin" method="post">
+            <h1 class="form-signin-heading">Please sign in</h1>
+            <label for="username" class="sr-only">Email address</label>
+            <input type="text" id="username" class="form-control" name="username" placeholder="Username" value="{{ old.username }}" required autofocus>
+            <label for="password" class="sr-only">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+            <input type="hidden" name="lat" id="lat" value="">
+            <input type="hidden" name="lon" id="lon" value="">
+            <p>You are new ? Click <a href="{{ path_for('register') }}" style="color: crimson">here</a>. Forgot your password ? It's <a href="#" style="color: crimson">here</a>.</p>
+            <BR/>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        </form>
+    </div>
+{% endblock %}

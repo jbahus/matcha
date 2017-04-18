@@ -1,0 +1,205 @@
+{% extends 'layout.twig' %}
+
+{% block stylesheets %}
+    <link href="css/avatar.css" type="text/css" rel="stylesheet" />
+    <script src="js/inputEnable.js" type="application/javascript"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="background-color: lightgray; width: 55%; margin-left: 10%; margin-top: 100px; border-radius: 15px; border: 5px solid black; float: left">
+        <div class="row">
+            {% for user in match %}
+                <div class="col-sm-4" style="margin: 15px 5px 15px 10%">
+                    <div class="card">
+                        <canvas class="header-bg" style="background-color: black" width="250" height="70" id="header-blur"></canvas>
+                        <div class="avatar">
+                            <img src="pictures/{{ user.username }}/1" alt="" />
+                        </div>
+                        <div class="content">
+                            <p><b>{{ user.username }}</b></p>
+                            <p style="color: white">
+                                {{ user.firstname }} {{ user.lastname }}
+                            </p>
+                            <p>
+                            <form method="post" action="{{ path_for('match') }}">
+                                <button  type="submit" style="float: left; margin-left: 20px; margin-bottom: 10px; color: red; background-color: #0f0f0f; border-color: lightblue" class="btn btn-default">&#10084</button>
+                                <input name="id" value="{{ user.id }}" hidden>
+                            </form>
+                            <form method="get" action="{{ path_for('view_profile') }}">
+                                <button type="submit" style="float: right; margin-right: 20px; margin-bottom: 10px;" class="btn btn-default">View</button>
+                                <input name="id" value="{{ user.id }}" hidden>
+                            </form>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div style="background-color: lightgray; width: 80%; margin-left: 10%; margin-top: 100px;  height: 500px">
+                    Aucun autre utilisateur.
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div style="display: inline-block; width: 20%; background-color: lightgray; float: right; margin-top: 100px; margin-right: 7%; border-radius: 15px; border: 5px solid black;">
+        <h1 align="center"><u>Recherche</u></h1>
+        <hr>
+        <form method="post" action="{{ path_for('search') }}">
+        <div style="margin-left: 5px;">
+            <p><b>Age</b> :
+                <input min="0" max="100" type="number" style="border: 1px solid black; margin-left: 10px;" name="age_min" value="">
+                <select onchange="enableAge()" id="age_operator" name="age_operator">
+                    <option value="<"><</option>
+                    <option value=">">></option>
+                    <option value="<=>"><=></option>
+                </select>
+                <input min="0" max="100" type="number" id="age" class="interval" name="age_max" value="" disabled>
+            </p>
+        </div>
+        <hr>
+        <div style="margin-left: 5px;">
+            <p><b>Score</b> :
+                <input min="0" max="100" type="number" style="border: 1px solid black; margin-left: 10px;" name="score_min" value="">
+                <select onchange="enableScore()" id="score_operator" name="score_operator">
+                    <option value="<"><</option>
+                    <option value=">">></option>
+                    <option value="<=>"><=></option>
+                </select>
+                <input min="0" max="100" type="number" id="score" class="interval" name="score_max" value="" disabled>
+            </p>
+        </div>
+        <hr>
+            <div style="margin-left: 5px;">
+                <p><b>Distance</b> :
+                    <input style="border: 1px solid black; margin-left: 10px;" name="distance" value=""> Km
+                </p>
+            </div>
+            <hr>
+        <div style="margin-left: 5px;">
+            <p><b>Tags</b> :
+                <select onchange="enableAge()" id="age_operator" name="tag_operator">
+                    <option value="any">Any</option>
+                    <option value="all">All</option>
+                </select>
+            <div class="well" style="max-height: 100px;overflow: auto;background-color: lightgray; border: solid 1px lightgray">
+            <ul class="list-group checked-list-box">
+                <li class="list-group-item">
+                    {% if geek %}
+                        <input type="checkbox" checked name="tag[]" value="geek"> #Geek
+                    {% else %}
+                        <input type="checkbox" name="tag[]" value="geek"> #Geek
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    {% if doux %}
+                        <input type="checkbox" checked name="tag[]" value="doux"> #Doux
+                    {% else %}
+                        <input type="checkbox" name="tag[]" value="doux"> #Doux
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    {% if piercing %}
+                        <input type="checkbox" checked name="tag[]" value="piercing"> #Piercing
+                    {% else %}
+                        <input type="checkbox" name="tag[]" value="piercing"> #Piercing
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    {% if moustache %}
+                        <input type="checkbox" checked name="tag[]" value="moustache"> #Moustache
+                    {% else %}
+                        <input type="checkbox" name="tag[]" value="moustache"> #Moustache
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    {% if tatouage %}
+                        <input type="checkbox" checked name="tag[]" value="tatouage"> #Tatouage
+                    {% else %}
+                        <input type="checkbox" name="tag[]" value="tatouage"> #Tatouage
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    {% if usa %}
+                        <input type="checkbox" checked name="tag[]" value="usa"> #USA
+                    {% else %}
+                        <input type="checkbox" name="tag[]" value="usa"> #USA
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    {% if paris %}
+                        <input type="checkbox" checked name="tag[]" value="paris"> #Paris
+                    {% else %}
+                        <input type="checkbox" name="tag[]" value="paris"> #Paris
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    {% if montagne %}
+                        <input type="checkbox" checked name="tag[]" value="montagne"> #Montagne
+                    {% else %}
+                        <input type="checkbox" name="tag[]" value="montagne"> #Montagne
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    {% if campagne %}
+                        <input type="checkbox" checked name="tag[]" value="campagne"> #Campagne
+                    {% else %}
+                        <input type="checkbox" name="tag[]" value="campagne"> #Campagne
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    {% if ville %}
+                        <input type="checkbox" checked name="tag[]" value="ville"> #Ville
+                    {% else %}
+                        <input type="checkbox" name="tag[]" value="ville"> #Ville
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    {% if prairie %}
+                        <input type="checkbox" checked name="tag[]" value="prairie"> #Prairie
+                    {% else %}
+                        <input type="checkbox" name="tag[]" value="prairie"> #Prairie
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    {% if poilu %}
+                        <input type="checkbox" checked name="tag[]" value="poilu"> #Poilu
+                    {% else %}
+                        <input type="checkbox" name="tag[]" value="poilu"> #Poilu
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    {% if punk %}
+                        <input type="checkbox" checked name="tag[]" value="punk"> #Punk
+                    {% else %}
+                        <input type="checkbox" name="tag[]" value="punk"> #Punk
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    {% if rase %}
+                        <input type="checkbox" checked name="tag[]" value="rase"> #Rasé
+                    {% else %}
+                        <input type="checkbox" name="tag[]" value="rase"> #Rasé
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    {% if bave %}
+                        <input type="checkbox" checked name="tag[]" value="bave"> #Bave
+                    {% else %}
+                        <input type="checkbox" name="tag[]" value="bave"> #Bave
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    {% if seguin %}
+                        <input type="checkbox" checked name="tag[]" value="seguin"> #Seguin
+                    {% else %}
+                        <input type="checkbox" name="tag[]" value="seguin"> #Seguin
+                    {% endif %}
+                </li>
+            </ul>
+            </div>
+            </p>
+        </div>
+        <hr>
+        <button style="margin: 10px 10px 10px 10px" class="btn btn-success" type="submit">Chercher</button>
+        </form>
+    </div>
+{% endblock %}

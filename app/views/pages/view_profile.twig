@@ -1,0 +1,101 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <div style="background-color: lightgray; width: 50%; margin-left: 25%; margin-top: 100px; border: 5px solid black">
+        <div style="margin-top: 10px; margin-left: 20px">
+            <span>Firstname :</span><span style="border: 1px solid black; margin-left: 10px;"> {{ flash.account.firstname }} </span>
+            </BR>
+            </BR>
+            <span>Lastname : </span><span style="border: 1px solid black; margin-left: 10px;"> {{ flash.account.lastname }} </span>
+            </BR>
+            </BR>
+            <span>Username : </span><span style="border: 1px solid black; margin-left: 10px;"> {{ flash.account.username }} </span>
+            </BR>
+            </BR>
+            <span>age : </span><span style="border: 1px solid black; margin-left: 10px;"> {{ flash.account.age }} </span>
+            </BR>
+            </BR>
+            <span>Sexe : </span><span style="border: 1px solid black; margin-left: 10px;">
+            {% if flash.account.gender == 0 %}
+            {% elseif flash.account.gender == 1 %}
+                Homme
+            {% elseif flash.account.gender == 2 %}
+                Femme
+            {% endif %}
+            </span>
+            </BR>
+            </BR>
+            <span>Sexualité : </span><span style="border: 1px solid black; margin-left: 10px;">
+            {% if flash.account.orientation == 0 %}
+                Bisexuel{%if flash.account.gender == 2 %}le{% endif %}
+            {% elseif user.orientation == 1 %}
+                Homosexuel{%if flash.account.gender == 2 %}le{% endif %}
+            {% elseif user.orientation == 2 %}
+                Heterosexuel{%if flash.account.gender == 2 %}le{% endif %}
+            {% endif %}
+            </span>
+            </BR>
+            </BR>
+            <span>Biographie : </span><textarea maxlength="2048" readonly name="bio" style="width: 95%; height: 10%; resize: none">{{ flash.account.bio }}</textarea>
+        </div>
+        <hr style="color: #0f0f0f">
+        <div id="myCarousel" class="carousel slide" style="width: 50%; margin-left: 25%" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                {% if flash.pictures == false %}
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                {% endif %}
+                {% set i = 0 %}
+                {% for picture in flash.pictures %}
+                    {% if i == 0 %}
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        {% set i = i + 1 %}
+                    {% else %}
+                        <li data-target="#myCarousel" data-slide-to="{{ i }}"></li>
+                        {% set i = i + 1 %}
+                    {% endif %}
+                {% endfor %}
+            </ol>
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                {% if pictures %}
+                    <div class="item active">
+                        <img name='picture' src="pictures/{{ flash.account.username }}/1" alt="Chania">
+                    </div>
+                {% else %}
+                    <div class="item active">
+                        <img name='picture' src="http://placehold.it/500x300" alt="Chania">
+                    </div>
+                {% endif %}
+                {% set i = 1 %}
+                {% for i in 1..5 %}
+                    {% if i <= flash.pictures %}
+                        <div class="item">
+                            <img name='picture' src="pictures/{{ flash.account.username }}/{{ flash.pictures[i] }}" alt="Chania">
+                        </div>
+                    {% endif %}
+                    {% set i = i + 1 %}
+                {% endfor %}
+            </div>
+            <!-- Left and right controls -->
+            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div></BR>
+        <hr style="color: #0f0f0f">
+        <div style="margin-left: 35%">
+            <h1>Tags :</h1>
+            <ul>
+            {% for tag in flash.tags %}
+                    <li>{{ tag.name }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

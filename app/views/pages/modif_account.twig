@@ -1,0 +1,55 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <div style="background-color: lightgray; width: 50%; margin-left: 25%; margin-top: 100px; border: 5px solid black">
+        <div style="margin-top: 10px; margin-left: 20px">
+            <form method="post" action="{{ path_for('modif_account/save') }}">
+            <span>Prenom :</span><input style="border: 1px solid black; margin-left: 10px;" name="firstname" value="{{ user.firstname }}">
+            </BR>
+            </BR>
+            <span>Nom de famille : </span><input style="border: 1px solid black; margin-left: 10px;" name="lastname" value="{{ user.lastname }}">
+            </BR>
+            </BR>
+            <span>Nom d'utilisateur : </span><input style="border: 1px solid black; margin-left: 10px;" name="username" value="{{ user.username }}">
+            </BR>
+            </BR>
+            <span>email : </span><input style="border: 1px solid black; margin-left: 10px;" name="email" value="{{ user.email }}">
+            </BR>
+            </BR>
+            <span>age : </span><input min="0" max="100" type="number" style="border: 1px solid black; margin-left: 10px;" name="age" value="{{ user.age }}">
+            </BR>
+            </BR>
+            <div>
+                Sexe : </BR>
+                <label>
+                    <input type="radio" class="gender" name="gender" {% if user.gender == 1 %} checked {% endif %} value="1"> Homme
+                </label>
+                </BR>
+                <label>
+                    <input type="radio" class="gender" name="gender" {% if user.gender == 2 %} checked {% endif %} value="2"> Femme
+                </label>
+            </div>
+            </BR>
+            <div>
+                Orientation sexuelle :</BR>
+                <label>
+                    <input type="radio" class="orientation" name="orientation" {% if user.orientation == 0 %} checked {% endif %} value="0"> Bisexuel
+                </label>
+                </BR>
+                <label>
+                    <input type="radio" class="orientation" name="orientation" {% if user.orientation == 1 %} checked {% endif %} value="1"> Homosexuel
+                </label>
+                </BR>
+                <label>
+                    <input type="radio" class="orientation" name="orientation" {% if user.orientation == 2 %} checked {% endif %} value="2"> Heterosexuel
+                </label>
+                </BR>
+                </BR>
+            <span>Biographie : </span><textarea maxlength="2048" name="bio" style="width: 95%; height: 10%; resize: none">{{ user.bio }}</textarea>
+            </div>
+            <div style=" margin-left: 20px; margin-top: 20px; margin-bottom: 15px">
+                <button class="btn btn-success" type="submit">Sauvegarder</button>
+            </div>
+            </form>
+    </div>
+{% endblock %}

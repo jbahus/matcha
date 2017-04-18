@@ -1,0 +1,75 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link href="css/stuff.css" type="text/css" rel="stylesheet">
+<link href="css/nav_account.css" type="text/css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    {% block stylesheets %}
+    {% endblock %}
+</head>
+<body style="background-image: url('img/background.jpg')">
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-inverse navbar" role="navigation">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{{ path_for('root') }}">matcha</a>
+            </div>
+            {% if user %}
+            <ul class="nav navbar-nav navbar-right" style="margin-right: 0px">
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="margin-right: -16px">Account
+                    <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <div class="navbar-content">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    {% if pictures %}
+                                        <img src="pictures/{{ user.username }}/1" alt="Alternate Text" class="img-responsive" />
+                                    {% else %}
+                                        <img src="http://placehold.it/120x120" alt="Alternate Text" class="img-responsive" />
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-7">
+                                    <span>{{ user.firstname }} {{ user.lastname }}</span>
+                                    <p class="text-muted small">{{ user.email }}</p>
+                                    <div class="divider">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        </BR>
+                        <div class="navbar-footer">
+                            <div class="navbar-footer-content">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <a style="margin-left: 10px" href="{{ path_for('account') }}" class="btn btn-primary btn-sm active">View Profile</a>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <a style="margin-right: 10px" href="{{ path_for('logout') }}" class="btn btn-default btn-sm pull-right">Sign Out</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" style="margin-right: 0px">
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" style="margin-right: -16px">Messagerie
+                    <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    </ul>
+                </li>
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+    <div style="margin-top: 75px">
+    {{ include('alert.twig') }}
+        {% block content %}
+        {% endblock %}
+    </div>
+    <div class="footer-bar">
+        <div style="color: white; margin-right: 10px">Copyright: jbahus [jbahus@student.42.fr]</div>
+    </div>
+</body>
+</html>

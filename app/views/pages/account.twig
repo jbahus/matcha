@@ -1,0 +1,247 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <div style="background-color: lightgray; width: 50%; margin-left: 25%; margin-top: 100px; border: 5px solid black">
+        <div style="margin-top: 10px; margin-left: 20px">
+            <span>Firstname :</span><span style="border: 1px solid black; margin-left: 10px;"> {{ user.firstname }} </span>
+            </BR>
+            </BR>
+            <span>Lastname : </span><span style="border: 1px solid black; margin-left: 10px;"> {{ user.lastname }} </span>
+            </BR>
+            </BR>
+            <span>Username : </span><span style="border: 1px solid black; margin-left: 10px;"> {{ user.username }} </span>
+            </BR>
+            </BR>
+            <span>email : </span><span style="border: 1px solid black; margin-left: 10px;"> {{ user.email }} </span>
+            </BR>
+            </BR>
+            <span>age : </span><span style="border: 1px solid black; margin-left: 10px;"> {{ user.age }} </span>
+            </BR>
+            </BR>
+            <span>Sexe : </span><span style="border: 1px solid black; margin-left: 10px;"> 
+            {% if user.gender == 0 %}
+            {% elseif user.gender == 1 %}
+                Homme
+            {% elseif user.gender == 2 %}
+                Femme
+            {% endif %}
+            </span>
+            </BR>
+            </BR>
+            <span>Sexualité : </span><span style="border: 1px solid black; margin-left: 10px;">
+            {% if user.orientation == 0 %}
+                Bisexuel{%if user.gender == 2 %}le{% endif %}
+            {% elseif user.orientation == 1 %}
+                Homosexuel{%if user.gender == 2 %}le{% endif %}
+            {% elseif user.orientation == 2 %}
+                Heterosexuel{%if user.gender == 2 %}le{% endif %}
+            {% endif %}
+            </span>
+            </BR>
+            </BR>
+            <span>Biographie : </span><textarea maxlength="2048" readonly name="bio" style="width: 95%; height: 10%; resize: none">{{ user.bio }}</textarea>
+        </div>
+        <div style=" margin-left: 20px; margin-top: 20px; margin-bottom: 15px">
+            <a href="{{ path_for('modif_account') }}" class="btn btn-success">Modifier</a>
+        </div>
+        {% if user.hidden == 0 %}
+            <span style="color: red; margin-left: 15px;">Les informations de votre compte ne sont pas encore complètes.</span>
+        {% endif %}
+        <hr style="color: #0f0f0f">
+            <div id="myCarousel" class="carousel slide" style="width: 50%; margin-left: 25%" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    {% if pictures == false %}
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    {% endif %}
+                    {% set i = 0 %}
+                        {% for picture in pictures %}
+                            {% if i == 0 %}
+                                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                {% set i = i + 1 %}
+                            {% else %}
+                            <li data-target="#myCarousel" data-slide-to="{{ i }}"></li>
+                                {% set i = i + 1 %}
+                            {% endif %}
+                        {% endfor %}
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                    {% if pictures %}
+                    <div class="item active">
+                        <div style="background-color: black; position: absolute; width: 50%; margin-left: 25%;">
+                            <div class="col-md-8">
+                                <a href="http://localhost:4200/account/profile/1" class="btn" style="color: whitesmoke; margin-top: 7px; margin-left: -20px"><span style="font-size: 80%">Photo de profil</span></a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="http://localhost:4200/account/delete/1" class="btn" style="color: red;"><span style="font-size: 200%">&#10007;</span></a>
+                            </div>
+                        </div>
+                        <img name='picture' src="pictures/{{ user.username }}/1" alt="Chania">
+                    </div>
+                    {% else %}
+                        <div class="item active">
+                            <img name='picture' src="http://placehold.it/500x300" alt="Chania">
+                        </div>
+                    {% endif %}
+                    {% set i = 3 %}
+                    {% for i in 3..6 %}
+                        {% if pictures[i] %}
+                        <div class="item">
+                            <div style="background-color: black; position: absolute; width: 50%; margin-left: 25%;">
+                                <div class="col-md-8">
+                                    <a href="http://localhost:4200/account/profile/{{ i - 1}}" class="btn" style="color: whitesmoke; margin-top: 7px; margin-left: -20px"><span style="font-size: 80%">Photo de profil</span></a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="http://localhost:4200/account/delete/{{ i - 1}}" class="btn" style="color: red;"><span style="font-size: 200%">&#10007;</span></a>
+                                </div>
+                            </div>
+                            <img name='picture' src="pictures/{{ user.username }}/{{ pictures[i] }}" alt="Chania">
+                        </div>
+                        {% endif %}
+                        {% set i = i + 1 %}
+                    {% endfor %}
+                </div>
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div></BR>
+        <form action="{{ path_for('add_picture') }}" method="POST" style="margin-left: inherit" enctype="multipart/form-data">
+            <label for="picture">Ajouter une photo :</label>
+                <input type="file" accept="image/*" id="picture" name="picture" /></BR>
+                <button class="btn btn-success">Send</button>
+        </form>
+        <hr style="color: #0f0f0f">
+        <div>
+            <h1 style="margin-left: 43%">Tags :</h1>
+            <form style="display: -webkit-box" method="post" action="{{ path_for('add_tags') }}">
+                <div class="well" style="max-height: 300px;overflow: auto;background-color: lightgray;margin-left: 35%; border: solid 1px lightgray">
+                    <ul class="list-group checked-list-box">
+                        <li class="list-group-item">
+                            {% if geek %}
+                            <input type="checkbox" checked name="tag[]" value="geek"> #Geek
+                            {% else %}
+                            <input type="checkbox" name="tag[]" value="geek"> #Geek
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item">
+                            {% if doux %}
+                                <input type="checkbox" checked name="tag[]" value="doux"> #Doux
+                            {% else %}
+                                <input type="checkbox" name="tag[]" value="doux"> #Doux
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item">
+                            {% if piercing %}
+                                <input type="checkbox" checked name="tag[]" value="piercing"> #Piercing
+                            {% else %}
+                                <input type="checkbox" name="tag[]" value="piercing"> #Piercing
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item">
+                            {% if moustache %}
+                                <input type="checkbox" checked name="tag[]" value="moustache"> #Moustache
+                            {% else %}
+                                <input type="checkbox" name="tag[]" value="moustache"> #Moustache
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item">
+                            {% if tatouage %}
+                                <input type="checkbox" checked name="tag[]" value="tatouage"> #Tatouage
+                            {% else %}
+                                <input type="checkbox" name="tag[]" value="tatouage"> #Tatouage
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item">
+                            {% if usa %}
+                                <input type="checkbox" checked name="tag[]" value="usa"> #USA
+                            {% else %}
+                                <input type="checkbox" name="tag[]" value="usa"> #USA
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item">
+                            {% if paris %}
+                                <input type="checkbox" checked name="tag[]" value="paris"> #Paris
+                            {% else %}
+                                <input type="checkbox" name="tag[]" value="paris"> #Paris
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item">
+                            {% if montagne %}
+                                <input type="checkbox" checked name="tag[]" value="montagne"> #Montagne
+                            {% else %}
+                                <input type="checkbox" name="tag[]" value="montagne"> #Montagne
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item">
+                            {% if campagne %}
+                                <input type="checkbox" checked name="tag[]" value="campagne"> #Campagne
+                            {% else %}
+                                <input type="checkbox" name="tag[]" value="campagne"> #Campagne
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item">
+                            {% if ville %}
+                                <input type="checkbox" checked name="tag[]" value="ville"> #Ville
+                            {% else %}
+                                <input type="checkbox" name="tag[]" value="ville"> #Ville
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item">
+                            {% if prairie %}
+                                <input type="checkbox" checked name="tag[]" value="prairie"> #Prairie
+                            {% else %}
+                                <input type="checkbox" name="tag[]" value="prairie"> #Prairie
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item">
+                            {% if poilu %}
+                                <input type="checkbox" checked name="tag[]" value="poilu"> #Poilu
+                            {% else %}
+                                <input type="checkbox" name="tag[]" value="poilu"> #Poilu
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item">
+                            {% if punk %}
+                                <input type="checkbox" checked name="tag[]" value="punk"> #Punk
+                            {% else %}
+                                <input type="checkbox" name="tag[]" value="punk"> #Punk
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item">
+                            {% if rase %}
+                                <input type="checkbox" checked name="tag[]" value="rase"> #Rasé
+                            {% else %}
+                                <input type="checkbox" name="tag[]" value="rase"> #Rasé
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item">
+                            {% if bave %}
+                                <input type="checkbox" checked name="tag[]" value="bave"> #Bave
+                            {% else %}
+                                <input type="checkbox" name="tag[]" value="bave"> #Bave
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item">
+                            {% if seguin %}
+                                <input type="checkbox" checked name="tag[]" value="seguin"> #Seguin
+                            {% else %}
+                                <input type="checkbox" name="tag[]" value="seguin"> #Seguin
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+                <div style="margin-left: 15px;">
+                    <button type="submit" class="btn btn-success">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'layout.twig' %}
+
+{% block stylesheets %}
+    <link href="css/avatar.css" type="text/css" rel="stylesheet" />
+    <script src="js/inputEnable.js" type="application/javascript"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="background-color: lightgray; width: 55%; margin-left: 10%; margin-top: 100px; border-radius: 15px; border: 5px solid black; float: left">
+        <div class="row">
+            {% for user in match %}
+                <div class="col-sm-4" style="margin: 15px 5px 15px 150px">
+                    <div class="card">
+                        <canvas class="header-bg" style="background-color: black" width="250" height="70" id="header-blur"></canvas>
+                        <div class="avatar">
+                            <img src="pictures/{{ user.username }}/1" alt="" />
+                        </div>
+                        <div class="content">
+                            <p><b>{{ user.username }}</b></p>
+                            <p style="color: white">
+                                {{ user.firstname }} {{ user.lastname }}
+                            </p>
+                            <p><button type="button" style="float: left; margin-left: 20px; margin-bottom: 10px" class="btn btn-default">like</button> <button type="button" style="float: right; margin-right: 20px; margin-bottom: 10px;" class="btn btn-default">View</button></p>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div style="background-color: lightgray; width: 80%; margin-left: 10%; margin-top: 100px;  height: 500px">
+                    Aucun autre utilisateur.
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div style="display: inline-block; width: 20%; background-color: lightgray; float: right; margin-top: 100px; margin-right: 7%; border-radius: 15px; border: 5px solid black;">
+        <h1 align="center"><u>Recherche</u></h1>
+        <hr>
+        <form method="post" action="{{ path_for('search') }}">
+            <div style="margin-left: 5px;">
+                <p><b>Age</b> :
+                    <input min="0" max="100" type="number" style="border: 1px solid black; margin-left: 10px;" name="age_min" value="">
+                    <select onchange="enableAge()" id="age_operator">
+                        <option name="operator" value="<"><</option>
+                        <option name="operator" value=">">></option>
+                        <option name="operator" value="<=>"><=></option>
+                    </select>
+                    <input min="0" max="100" type="number" id="age" class="interval" name="age_max" value="" disabled>
+                </p>
+            </div>
+            <hr>
+            <div style="margin-left: 5px;">
+                <p><b>Score</b> :
+                    <input min="0" max="100" type="number" style="border: 1px solid black; margin-left: 10px;" name="score_min" value="">
+                    <select onchange="enableScore()" id="score_operator">
+                        <option name="operator" value="<"><</option>
+                        <option name="operator" value=">">></option>
+                        <option name="operator" value="<=>"><=></option>
+                    </select>
+                    <input min="0" max="100" type="number" id="score" class="interval" name="score_max" value="" disabled>
+                </p>
+            </div>
+            <hr>
+            <div style="margin-left: 5px;">
+                <p><b>Tags</b> :
+                    <select onchange="enableAge()" id="age_operator">
+                        <option name="operator" value="any">Any</option>
+                        <option name="operator" value="all">All</option>
+                    </select>
+                </p>
+            </div>
+            <hr>
+            <button style="margin: 10px 10px 10px 10px" class="btn btn-success" type="submit">Chercher</button>
+        </form>
+    </div>
+{% endblock %}
